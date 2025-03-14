@@ -4,7 +4,7 @@ import { Head, Link } from '@inertiajs/vue3';
 
 <template>
     <Head title="Welcome">
-        <link rel="preconnect" href="https://rsms.me/" />
+        
         
     </Head>
     <div class="flex min-h-screen flex-col items-center bg-[#faf5ef] p-6 text-[#1b1b18] dark:bg-[#0a0a0a] lg:justify-center lg:p-8">

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sector;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SectorController extends Controller
 {
@@ -11,7 +13,9 @@ class SectorController extends Controller
      */
     public function index()
     {
-        //
+        $types = Sector::all();
+        return Inertia::render('types/index', ["list_of"=>$types]);
+        //view('category.index', compact('categories'));
     }
 
     /**

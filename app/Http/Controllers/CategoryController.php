@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
@@ -13,7 +14,15 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return view('category.index', compact('categories'));
+        return Inertia::render('category/index', ["categories"=>$categories]);
+        //view('category.index', compact('categories'));
+    }
+
+    public function new()
+    {
+        $categories = Category::all();
+        return Inertia::render('category/add', ["categories"=>$categories]);
+        //view('category.index', compact('categories'));
     }
 
     /**

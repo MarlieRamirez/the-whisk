@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SectorController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -56,11 +57,21 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 
     Route::controller(CategoryController::class)->group(function () {
-        Route::get('/category', 'index');
-        Route::get('/category/{id}', 'show');
-        Route::post('/category', 'store');
-        Route::put('/category', 'update');
-        Route::delete('/delete', 'destroy');
+        Route::get('category', 'index');
+        Route::get('category/new', 'new')->name('category.form');
+        Route::get('category/{id}', 'show')->name('category.edit');
+        Route::post('category', 'store')->name('category.store');
+        Route::put('category', 'update')->name('category.update');
+        Route::delete('category', 'destroy')->name('category.destroy');;
+    });
+
+    Route::controller(SectorController::class)->group(function () {
+        Route::get('types', 'index');
+        Route::get('types/new', 'new')->name('types.form');
+        Route::get('types/{id}', 'show')->name('types.edit');
+        Route::post('types', 'store')->name('types.store');
+        Route::put('types', 'update')->name('types.update');
+        Route::delete('types', 'destroy')->name('types.destroy');;
     });
     
 

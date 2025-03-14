@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, FolderArchive, LayoutGrid } from 'lucide-vue-next';
+import { BookOpen, FolderArchive, Github, LayoutGrid } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -20,13 +20,8 @@ const mainNavItems: NavItem[] = [
         icon: FolderArchive,
     },
     {
-        title: 'Tipos de ingredientes',
-        href: '/tipos',
-        icon: FolderArchive,
-    },
-    {
-        title: 'Tipos de receta',
-        href: '/sector',
+        title: 'Secciones para recetas',
+        href: '/types',
         icon: FolderArchive,
     },
     {
@@ -48,15 +43,11 @@ const mainNavItems: NavItem[] = [
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Github Repo',
-        href: 'https://github.com/laravel/vue-starter-kit',
-        icon: Folder,
+        title: 'By Marlie',
+        href: 'https://github.com/MarlieRamirez/the-whisk',
+        icon: Github,
     },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits',
-        icon: BookOpen,
-    },
+    
 ];
 </script>
 
