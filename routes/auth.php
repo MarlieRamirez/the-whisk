@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\SectorController;
 use Illuminate\Support\Facades\Route;
 
@@ -82,6 +83,15 @@ Route::middleware('auth')->group(function () {
         Route::post('brand', 'store')->name('brand.store');
         Route::put('brand/{id}', 'update')->name('brand.update');
         Route::delete('brand/{id}', 'destroy')->name('brand.destroy');;
+    });
+
+    Route::controller(IngredientsController::class)->group(function () {
+        Route::get('ingredients/{updated?}', 'index')->name('ingredient.index');
+        Route::get('ingredient/new', 'new')->name('ingredient.form');
+        Route::get('ingredient/{id}', 'show')->name('ingredient.edit');
+        Route::post('ingredient', 'store')->name('ingredient.store');
+        Route::put('ingredient/{id}', 'update')->name('ingredient.update');
+        Route::delete('ingredient/{id}', 'destroy')->name('ingredient.destroy');;
     });
     
 

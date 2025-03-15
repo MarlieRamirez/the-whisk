@@ -42,7 +42,7 @@ onUpdated(() => {
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems" >
         <Head :title="title" />
-        <Toaster richColors position="top-right" />
+        <Toaster richColors position="bottom-right" />
         <div class="grid grid-cols-4 gap-4" v-if="list_of.length >0">
             <SmallCards :list_of="list_of" :link="href"/>
         </div>

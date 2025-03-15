@@ -31,7 +31,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Ingredientes',
-        href: '/ingredientes',
+        href: '/ingredients',
         icon: BookOpen,
     },
     {

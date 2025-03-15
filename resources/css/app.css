@@ -90,3 +90,23 @@ html {
         @apply bg-background text-foreground;
     }
 }
+
+.p-select-list-container{
+    background-color: rgba(255, 255, 255, 0.95);
+    /* padding: 1pc; */
+    border-bottom-right-radius: 1pc;
+    border-bottom-left-radius: 1pc;
+    border-width: 2px;
+    border-color: #ededed;
+}
+
+.p-select-option{
+    padding-top: 5px !important; 
+    padding-bottom: 5px !important; 
+    border-radius: 10px  !important;
+    padding-left: 1pc !important;
+}
+
+.p-select-option:hover{
+    background-color: rgba(220, 220, 220, 0.95) !important;
+}
