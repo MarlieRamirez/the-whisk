@@ -11,10 +11,17 @@ class BrandController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($updated=false)
     {
         $brand = Brand::all();
-        return Inertia::render('SmallRecords', ["list_of"=>$brand, "title"=>"Marcas", "href"=>"brand", "add"=>true]);
+        $props = ["list_of"=>$brand, "title"=>"Marcas", "href"=>"brand", "add"=>true];
+        
+        if($updated){
+            $props['updated'] = $updated;
+            
+        }
+
+        return Inertia::render('SmallRecords', $props);
     }
 
     public function new()
@@ -32,11 +39,8 @@ class BrandController extends Controller
           ]);
 
         Brand::create($request->all());
-        
-        $brand = Brand::all();
-        
-        return Inertia::render('SmallRecords', ["list_of"=>$brand, "title"=>"Marcas de ingredientes", "href"=>"brand", "add"=>true])
-            ->with('success','Se creó la marca.');
+
+        return redirect()->route('brand.index', true);
     }
 
 
@@ -62,10 +66,7 @@ class BrandController extends Controller
         
         $brand->update($request->all());
           
-        $brands = Brand::all();
-        
-          return Inertia::render('SmallRecords', ["list_of"=>$brands, "title"=>"Marcas", "href"=>"brand", "add"=>true])
-            ->with('success', 'La marca se ha actualizado');
+        return redirect()->route('brand.index', true);
     }
 
     /**
@@ -73,6 +74,8 @@ class BrandController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $brand = Brand::find($id);
+        $brand->delete();
+        return redirect()->route('brand.index', true);
     }
 }

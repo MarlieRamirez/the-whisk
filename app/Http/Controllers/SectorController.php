@@ -11,10 +11,17 @@ class SectorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($updated=false)
     {
         $types = Sector::all();
-        return Inertia::render('SmallRecords', ["list_of"=>$types, "title"=>"Secciones de Receta", "href"=>"types", "add"=>true]);
+        $props = ["list_of"=>$types, "title"=>"Secciones de Receta", "href"=>"type", "add"=>true];
+        
+        if($updated){
+            $props['updated'] = $updated;
+            
+        }
+
+        return Inertia::render('SmallRecords', $props);
         //view('category.index', compact('categories'));
     }
     
@@ -38,10 +45,7 @@ class SectorController extends Controller
 
         Sector::create($request->all());
         
-        $section = Sector::all();
-        
-        return Inertia::render('SmallRecords', ["list_of"=>$section, "title"=>"Secciones de Receta", "href"=>"types", "add"=>true])
-            ->with('success','Se creó la categoria.');
+        return redirect()->route('types.index', true);
     }
 
     /**
@@ -65,11 +69,9 @@ class SectorController extends Controller
         $sector = Sector::find($id);
         
         $sector->update($request->all());
-          
-        $sectors = Sector::all();
-        
-          return Inertia::render('SmallRecords', ["list_of"=>$sectors, "title"=>"Sección", "href"=>"types", "add"=>true])
-            ->with('success', 'La Sección se ha actualizado');
+        //$this->index(true);
+        return redirect()->route('types.index', true);
+        //return;
     }
 
     /**
@@ -77,6 +79,8 @@ class SectorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $brand = Sector::find($id);
+        $brand->delete();
+        return redirect()->route('types.index', true);
     }
 }

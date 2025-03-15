@@ -16,7 +16,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Categorias',
-        href: '/category',
+        href: '/categories',
         icon: FolderArchive,
     },
     {
@@ -26,7 +26,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Marcas',
-        href: '/brand',
+        href: '/brands',
         icon: FolderArchive,
     },
     {

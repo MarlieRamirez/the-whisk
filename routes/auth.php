@@ -58,7 +58,7 @@ Route::middleware('auth')->group(function () {
         ->name('logout');
 
     Route::controller(CategoryController::class)->group(function () {
-        Route::get('category', 'index');
+        Route::get('categories/{updated?}', 'index')->name('category.index');
         Route::get('category/new', 'new')->name('category.form');
         Route::post('category', 'store')->name('category.store');
         Route::get('category/{id}', 'show')->name('category.edit');
@@ -67,21 +67,21 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(SectorController::class)->group(function () {
-        Route::get('types', 'index');
+        Route::get('types/{updated?}', 'index')->name('types.index');
         Route::get('types/new', 'new')->name('types.form');
         Route::post('types', 'store')->name('types.store');
-        Route::get('types/{id}', 'show')->name('types.edit');
-        Route::put('types/{id}', 'update')->name('types.update');
-        Route::delete('types', 'destroy')->name('types.destroy');;
+        Route::get('type/{id}', 'show')->name('type.edit');
+        Route::put('types/{id}', 'update')->name('type.update');
+        Route::delete('type/{id}', 'destroy')->name('type.destroy');;
     });
 
     Route::controller(BrandController::class)->group(function () {
-        Route::get('brand', 'index');
+        Route::get('brands/{updated?}', 'index')->name('brand.index');
         Route::get('brand/new', 'new')->name('brand.form');
         Route::get('brand/{id}', 'show')->name('brand.edit');
         Route::post('brand', 'store')->name('brand.store');
         Route::put('brand/{id}', 'update')->name('brand.update');
-        Route::delete('brand', 'destroy')->name('brand.destroy');;
+        Route::delete('brand/{id}', 'destroy')->name('brand.destroy');;
     });
     
 

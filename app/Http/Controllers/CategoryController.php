@@ -11,10 +11,17 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($updated=false)
     {
         $categories = Category::all();
-        return Inertia::render('SmallRecords', ["list_of"=>$categories, "title"=>"Categorias", "href"=>"category", "add"=>true]);
+        $props = ["list_of"=>$categories, "title"=>"Categorias", "href"=>"category", "add"=>true];
+        
+        if($updated){
+            $props['updated'] = $updated;
+            
+        }
+
+        return Inertia::render('SmallRecords', $props);
         //view('category.index', compact('categories'));
     }
 
@@ -34,10 +41,7 @@ class CategoryController extends Controller
 
         Category::create($request->all());
         
-        $categories = Category::all();
-        
-        return Inertia::render('SmallRecords', ["list_of"=>$categories, "title"=>"Categorias", "href"=>"category", "add"=>true])
-            ->with('success','Se creó la categoria.');
+        return redirect()->route('category.index', true);
     }
 
     /**
@@ -62,10 +66,7 @@ class CategoryController extends Controller
         
         $category->update($request->all());
           
-        $categories = Category::all();
-        
-          return Inertia::render('SmallRecords', ["list_of"=>$categories, "title"=>"Categorias", "href"=>"category", "add"=>true])
-            ->with('success', 'La Categoria se ha actualizado');
+        return redirect()->route('category.index', true);
     }
 
     /**
@@ -75,7 +76,6 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         $category->delete();
-        $categories = Category::all();
-        return Inertia::render('SmallRecords', ["list_of"=>$categories, "title"=>"Categorias", "href"=>"category", "add"=>true]);
+        return redirect()->route('category.index', true);
     }
 }

@@ -30,7 +30,7 @@ const deleteUser = (e: Event) => {
     form.delete(route( props.link+'.destroy', props.id), {
         preserveScroll: true,
         onSuccess: () => closeModal(),
-        onError: () =>closeModal(),
+        onError: () => closeModal(),
         onFinish: () => form.reset(),
     });
 };
