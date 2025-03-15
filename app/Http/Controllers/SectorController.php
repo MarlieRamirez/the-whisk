@@ -14,24 +14,34 @@ class SectorController extends Controller
     public function index()
     {
         $types = Sector::all();
-        return Inertia::render('types/index', ["list_of"=>$types]);
+        return Inertia::render('SmallRecords', ["list_of"=>$types, "title"=>"Secciones de Receta", "href"=>"types", "add"=>true]);
         //view('category.index', compact('categories'));
     }
-
+    
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function new()
     {
-        //
+        return Inertia::render('form/Section');
     }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255',
+          ]);
+
+        Sector::create($request->all());
+        
+        $section = Sector::all();
+        
+        return Inertia::render('SmallRecords', ["list_of"=>$section, "title"=>"Secciones de Receta", "href"=>"types", "add"=>true])
+            ->with('success','Se creó la categoria.');
     }
 
     /**
@@ -39,15 +49,8 @@ class SectorController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $sector = Sector::find($id);
+        return Inertia::render('form/Section', ["model"=>$sector]);
     }
 
     /**
@@ -55,7 +58,18 @@ class SectorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255'
+          ]);
+
+        $sector = Sector::find($id);
+        
+        $sector->update($request->all());
+          
+        $sectors = Sector::all();
+        
+          return Inertia::render('SmallRecords', ["list_of"=>$sectors, "title"=>"Sección", "href"=>"types", "add"=>true])
+            ->with('success', 'La Sección se ha actualizado');
     }
 
     /**

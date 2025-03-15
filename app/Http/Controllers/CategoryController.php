@@ -14,15 +14,13 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return Inertia::render('category/index', ["categories"=>$categories]);
+        return Inertia::render('SmallRecords', ["list_of"=>$categories, "title"=>"Categorias", "href"=>"category", "add"=>true]);
         //view('category.index', compact('categories'));
     }
 
     public function new()
     {
-        $categories = Category::all();
-        return Inertia::render('category/add', ["categories"=>$categories]);
-        //view('category.index', compact('categories'));
+        return Inertia::render('form/Category');
     }
 
     /**
@@ -32,11 +30,13 @@ class CategoryController extends Controller
     {
         $request->validate([
             'name' => 'required|max:255',
-            'description' => 'required',
           ]);
 
         Category::create($request->all());
-          return redirect()->route('category.index')
+        
+        $categories = Category::all();
+        
+        return Inertia::render('SmallRecords', ["list_of"=>$categories, "title"=>"Categorias", "href"=>"category", "add"=>true])
             ->with('success','Se creó la categoria.');
     }
 
@@ -46,7 +46,7 @@ class CategoryController extends Controller
     public function show(string $id)
     {
         $category = Category::find($id);
-        return view('category.show', compact('category'));
+        return Inertia::render('form/Category', ["model"=>$category]);
     }
 
     /**
@@ -55,13 +55,16 @@ class CategoryController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'required',
+            'name' => 'required|max:255'
           ]);
 
-          $category = Category::find($id);
-          $category->update($request->all());
-          return redirect()->route('category.index')
+        $category = Category::find($id);
+        
+        $category->update($request->all());
+          
+        $categories = Category::all();
+        
+          return Inertia::render('SmallRecords', ["list_of"=>$categories, "title"=>"Categorias", "href"=>"category", "add"=>true])
             ->with('success', 'La Categoria se ha actualizado');
     }
 
@@ -72,7 +75,7 @@ class CategoryController extends Controller
     {
         $category = Category::find($id);
         $category->delete();
-        return redirect()->route('category.index')
-            ->with('success', 'Se ha eliminado la categoria');
+        $categories = Category::all();
+        return Inertia::render('SmallRecords', ["list_of"=>$categories, "title"=>"Categorias", "href"=>"category", "add"=>true]);
     }
 }

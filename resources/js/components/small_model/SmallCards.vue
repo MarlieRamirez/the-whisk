@@ -5,6 +5,7 @@ import CardContent from '@/components/ui/card/CardContent.vue';
 import CardFooter from '@/components/ui/card/CardFooter.vue';
 import {Link } from '@inertiajs/vue3';
 import { Pencil,Trash2 } from 'lucide-vue-next';
+import DeleteModal from '../DeleteModal.vue';
 
 defineProps<{
     list_of: [];
@@ -21,10 +22,11 @@ defineProps<{
             <Link :href="route( link+'.edit', item.id)">
                 <div class="bg-blue-300 hover:bg-blue-400 dark:bg-blue-100 dark:hover:bg-blue-400 rounded-full p-2 mt-4"><Pencil :size="25" class="stroke-gray-600 dark:stroke-gray-600" /></div>
             </Link>
-                    
-            <Link :href="route(link+'.destroy')">
+                 
+            <DeleteModal :link="link" :id="item.id" />
+            <!-- <Link :href="route(link+'.destroy')">
                 <div class="bg-red-500 hover:bg-red-800 dark:bg-red-200 dark:hover:bg-red-400 rounded-full p-2 mt-4"><Trash2  :size="25" class="stroke-pink-100 dark:stroke-pink-800" /></div>
-            </Link>
+            </Link> -->
                     
         </CardFooter>
     </Card>

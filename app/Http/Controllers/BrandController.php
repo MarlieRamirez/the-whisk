@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class BrandController extends Controller
 {
@@ -11,15 +13,13 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        $brand = Brand::all();
+        return Inertia::render('SmallRecords', ["list_of"=>$brand, "title"=>"Marcas", "href"=>"brand", "add"=>true]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function new()
     {
-        //
+        return Inertia::render('form/Brand');
     }
 
     /**
@@ -27,31 +27,45 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255',
+          ]);
+
+        Brand::create($request->all());
+        
+        $brand = Brand::all();
+        
+        return Inertia::render('SmallRecords', ["list_of"=>$brand, "title"=>"Marcas de ingredientes", "href"=>"brand", "add"=>true])
+            ->with('success','Se creó la marca.');
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $sector = Brand::find($id);
+        return Inertia::render('form/Brand', ["model"=>$sector]);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
+    
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255'
+          ]);
+
+        $brand = Brand::find($id);
+        
+        $brand->update($request->all());
+          
+        $brands = Brand::all();
+        
+          return Inertia::render('SmallRecords', ["list_of"=>$brands, "title"=>"Marcas", "href"=>"brand", "add"=>true])
+            ->with('success', 'La marca se ha actualizado');
     }
 
     /**
