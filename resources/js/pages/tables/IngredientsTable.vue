@@ -50,15 +50,15 @@ onUpdated(() => {
         <Head :title="title" />
         <Toaster richColors position="bottom-right" />
 
-        <div v-if="list_of.length > 0">
+        <div class="w-auto mt-8 " v-if="list_of.length > 0">
             <TableLayout link="ingredient" :titles="titles">
-                <tr v-for="item in list_of" v-bind:key="item.id">
-                    <td> {{ item.name }}</td>
-                    <td> {{ item.brand.name }}</td>
-                    <td> {{ item.category.name }}</td>
-                    <td> {{ item.quantity }} {{ item.unit }}</td>
+                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-100 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" v-for="item in list_of" v-bind:key="item.id">
+                    <td class="pl-4"> {{ item.name }}</td>
+                    <td class="pl-4"> {{ item.brand.name }}</td>
+                    <td class="pl-4"> {{ item.category.name }}</td>
+                    <td class="pl-4"> {{ item.quantity }} {{ item.unit }}</td>
                     <td class="flex justify-around">
-                        <Link :href="route('ingredient.edit', item.id)">
+                        <Link :href="route('ingredient.edit', item.id)" title="Editar ingrediente">
                             <div class="bg-blue-300 hover:bg-blue-400 dark:bg-blue-100 dark:hover:bg-blue-400 rounded-full p-2 my-2">
                                 <Pencil :size="25" class="stroke-gray-600 dark:stroke-gray-600" />
                             </div>

@@ -43,7 +43,7 @@ const closeModal = () => {
 
 <template>
     <Dialog>
-        <DialogTrigger as-child>
+        <DialogTrigger as-child title="Eliminar">
             <div class="cursor-pointer bg-red-500 hover:bg-red-800 dark:bg-red-200 dark:hover:bg-red-400 rounded-full p-2 my-2"><Trash2  :size="25" class="stroke-pink-100 dark:stroke-pink-800" /></div>
         </DialogTrigger>
         

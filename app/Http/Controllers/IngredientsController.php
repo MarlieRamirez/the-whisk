@@ -24,7 +24,7 @@ class IngredientsController extends Controller
             
         }
 
-        return Inertia::render('TableRecords', $props);
+        return Inertia::render('tables/IngredientsTable', $props);
         //view('category.index', compact('categories'));
     }
     
