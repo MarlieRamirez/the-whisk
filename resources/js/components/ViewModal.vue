@@ -7,10 +7,10 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-    DialogScrollContent
+    DialogScrollContent,
+    DialogTrigger
 } from '@/components/ui/dialog';
-import { Eye, Pencil } from 'lucide-vue-next';
+import { Pencil } from 'lucide-vue-next';
 import SidebarSeparator from './ui/sidebar/SidebarSeparator.vue';
 import HeadingSmall from './HeadingSmall.vue';
 
@@ -19,14 +19,14 @@ defineProps<{
     item: {
         id: string;
         name: string;
-        details: any;
-        sector: any;
         quantity: any;
         presentation: any;
-        ingredients: any;
 
+        details: any;
+        // ingredients: any;
     };
     sector: [any];
+    ingredient:any
 }>();
 
 </script>
@@ -34,11 +34,9 @@ defineProps<{
 <template>
     <Dialog>
         <DialogTrigger as-child title="View">
-            <div
-                class="cursor-pointer bg-blue-300 hover:bg-blue-400 dark:bg-blue-100 dark:hover:bg-blue-300 rounded-full p-2 my-2">
-                <Eye :size="25" class="stroke-gray-600 dark:stroke-gray-600" />
-            </div>
+            <slot></slot>
         </DialogTrigger>
+        
 
         <DialogScrollContent class="max-w-3xl">
 
@@ -55,7 +53,8 @@ defineProps<{
 
                     <div v-for="detail in item.details" v-bind:key="detail.id">
                         <div v-if="detail.sector_id == sect.id" class="flex text-[#000000] dark:text-[#ffffff]">
-                            <p class="flex-none text-base mt-1">{{ item.ingredients[detail.ingredient_id].name }}
+                            {{ item.details.ingredient_id }}
+                            <p class="flex-none text-base mt-1">{{ ingredient[ingredient.findIndex((x:any)=>x.id == detail.ingredient_id)].name }}
                             </p>
                             <div
                                 class="justify-self-stretch border-dotted w-full border-b-2 border-bottom border-[#000000] dark:border-[#ffffff]">

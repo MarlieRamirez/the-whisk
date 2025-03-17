@@ -56,7 +56,7 @@ const submit = () => {
 
     <AppLayout :breadcrumbs="breadcrumbItems">
 
-        <Head title="Agregar Categorias" />
+        <Head title="Agregar Ingredientes" />
         <div class=" m-3 flex flex-row justify-center">
 
             <form @submit.prevent="submit"
@@ -65,14 +65,14 @@ const submit = () => {
                 <div class="grid gap-6">
                     <div class="grid gap-2 ">
                         <Label for="price">Marca*</Label>
-                        <div class="border-2 bg-[#ffffff] p-2 rounded-md">
-                            <Select v-model="form.brand_id" :options="brand" optionLabel="name" option-value="id" placeholder="Marca del producto" class="w-full"/>
+                        <div class="border-2 bg-[#ffffff] dark:bg-[#000000] p-2 rounded-md">
+                            <Select v-model="form.brand_id" :options="brand" optionLabel="name" option-value="id" placeholder="Marca del producto" class="w-full my-app-dark"/>
                         </div>
                         <InputError :message="form.errors.price" />
                     </div>
                     <div class="grid gap-2 ">
                         <Label for="price">Categoria del producto*</Label>
-                        <div class="border-2 bg-[#ffffff] p-2 rounded-md">
+                        <div class="border-2 bg-[#ffffff] dark:bg-[#000000] p-2 rounded-md">
                             <Select v-model="form.category_id" :options="categories" optionLabel="name"  option-value="id" placeholder="Categoria del producto" class="w-full"/>
                         </div>
                         <InputError :message="form.errors.price" />

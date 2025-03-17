@@ -110,3 +110,11 @@ html {
 .p-select-option:hover{
     background-color: rgba(220, 220, 220, 0.95) !important;
 }
+
+.dark .p-select-list-container{
+    background-color: rgba(0, 0, 0, 0.95) !important;
+}
+
+.dark .p-select-option:hover{
+    background-color: rgba(0, 0, 0, 0.95) !important;
+}

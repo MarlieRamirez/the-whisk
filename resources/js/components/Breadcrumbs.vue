@@ -41,7 +41,7 @@ defineProps<{
         <Link v-if="breadcrumbs[0].add" :href="breadcrumbs[0].href+'/new'" class="justify-end ml-4 ">
             <div class="flex flex-row rounded-full py-1 pl-2 pr-5 bg-green-600 text-neutral-100 hover:bg-green-700 hover:text-neutral-100">
                 <Plus class="self-center flex-none" width="30"/>
-                <p class="flex-grow text-lg">Agregar</p>
+                <p class="flex-grow">Agregar</p>
             </div>
         </Link>
 
