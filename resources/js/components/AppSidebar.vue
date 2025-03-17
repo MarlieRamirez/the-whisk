@@ -36,7 +36,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Receta',
-        href: '/recetas',
+        href: '/recipes',
         icon: BookOpen,
     },
 ];

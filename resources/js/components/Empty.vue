@@ -4,8 +4,8 @@ import {LucideFolderSearch } from 'lucide-vue-next';
 <template>
     <div class="mt-8">
             <div class="flex justify-center mt-8">
-                <div class="rounded-full border border-4 p-8  w-min ">
-                <LucideFolderSearch width="250" height="250" class="p-2 "/>
+                <div class="rounded-full border border-4 p-8 ">
+                <LucideFolderSearch class="p-2 w-full" width="15vw" height="15vw"/>
                 </div>
             </div>
             <p class="text-center text-2xl font-bold my-4">No hay nada aquí, intenta con el boton agregar</p>

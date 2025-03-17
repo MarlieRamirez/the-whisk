@@ -22,7 +22,7 @@ defineProps<{
         <CardFooter class="border border-t-4 justify-around pb-4">
                     
             <Link :href="route( link+'.edit', item.id)">
-                <div class="bg-blue-300 hover:bg-blue-400 dark:bg-blue-100 dark:hover:bg-blue-400 rounded-full p-2 mt-4"><Pencil :size="25" class="stroke-gray-600 dark:stroke-gray-600" /></div>
+                <div class="bg-blue-300 hover:bg-blue-400 dark:bg-blue-100 dark:hover:bg-blue-400 rounded-full p-2"><Pencil :size="25" class="stroke-gray-600 dark:stroke-gray-600" /></div>
             </Link>
                  
             <DeleteModal :link="link" :id="item.id" />

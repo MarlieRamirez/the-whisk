@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SectorController;
 use Illuminate\Support\Facades\Route;
 
@@ -92,6 +93,15 @@ Route::middleware('auth')->group(function () {
         Route::post('ingredient', 'store')->name('ingredient.store');
         Route::put('ingredient/{id}', 'update')->name('ingredient.update');
         Route::delete('ingredient/{id}', 'destroy')->name('ingredient.destroy');;
+    });
+
+    Route::controller(RecipeController::class)->group(function () {
+        Route::get('recipes/{updated?}', 'index')->name('recipe.index');
+        Route::get('recipe/new', 'new')->name('recipe.form');
+        Route::get('recipe/{id}', 'show')->name('recipe.edit');
+        Route::post('recipe', 'store')->name('recipe.store');
+        Route::put('recipe/{id}', 'update')->name('recipe.update');
+        Route::delete('recipe/{id}', 'destroy')->name('recipe.destroy');
     });
     
 
