@@ -17,7 +17,8 @@ class RecipeController extends Controller
     public function index($updated = false)
     {
         $recipe = Recipe::all();
-        $recipe->load('details', 'ingredients');
+        $recipe->load('details');
+        
         $sector = Sector::all();
         $ingredients = Ingredients::all();
 
@@ -130,12 +131,69 @@ class RecipeController extends Controller
      */
     public function destroy(string $id)
     {
-        RecipeDetails::where('recipe_id', '=', $id)->delete();
-        Recipe::find($id)->delete();
+        // RecipeDetails::where('recipe_id', '=', $id)->delete();
+        $recipe = Recipe::find($id);
+        $recipe->status = 0;
+        $recipe->save();
         return redirect()->route('recipe.index', true);
     }
 
+    //DETALLES
     public function details_index(string $id, $updated=false){
+        $recipe = Recipe::all()->where('id','=', $id);
+        $details = RecipeDetails::all()->where('recipe_id', '=', $id);
+        $details->load('section', 'ingredient');
 
+
+        $props = ["recipe"=>$recipe,"list_of"=>$details, "title"=>"Detalles de receta", "href"=>"details", "add"=>true];
+        
+        if($updated){
+            $props['updated'] = $updated;
+            
+        }
+        
+        return Inertia::render('tables/DetailsTable', $props);
+    }
+    public function details_form(string $id)
+    {
+        $detail = RecipeDetails::find($id);
+        $recipe = Recipe::find($detail->recipe_id);
+        $section = Sector::all();
+        $ingredients = Ingredients::all();
+        
+
+        return Inertia::render('form/RecipeDetailsForm', ["sections"=>$section, "ingredients"=>$ingredients, "recipe"=>$recipe, "detail"=>$detail]);
+    }
+     
+    public function details_update(Request $request,string $id){
+
+        $detail = RecipeDetails::find($id);
+        $recipe = Recipe::find($detail->recipe_id);
+
+        $array = RecipeDetails::all()->where('recipe_id', '=', $detail->recipe_id);
+        
+        $batch = 0;
+
+        foreach ($array as $value){
+            $batch += $value->cost;
+        }
+
+        $detail->update($request->all());
+        
+        $unit = $batch/$recipe->quantity;
+
+        $batch = floatval(number_format($batch, 2));
+        $unit = floatval(number_format($unit, 2));
+
+        $recipe->save();
+
+        return redirect()->route('details.index', [$detail->recipe_id,true]);
+    }
+
+    public function details_destroy(string $id){
+        $recipe = RecipeDetails::find($id);
+        $recipe_id = $recipe->recipe_id;
+        $recipe->delete();
+        return redirect()->route('details.index', [$recipe_id,true]);
     }
 }

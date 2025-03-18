@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Recipe extends Model
 {
     protected $table = 'recipe';
-    protected $fillable = ['name','quantity','presentation', 'unit_price', 'batch_cost','unit_cost'];
+    protected $fillable = ['name','quantity','presentation', 'unit_price', 'batch_cost','unit_cost','status'];
     public $timestamps = false;
     public function details(): HasMany{
         return $this->hasMany(RecipeDetails::class, 'recipe_id', 'id');

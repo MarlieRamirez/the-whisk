@@ -23,8 +23,12 @@ defineProps<{
                 </tr>
             </thead>
             <tbody>
-                <slot></slot>
+                <slot name="body"></slot>
             </tbody>
+
+            <tfoot>
+                <slot name="foot"></slot>
+            </tfoot>
         </table>
     </div>
 

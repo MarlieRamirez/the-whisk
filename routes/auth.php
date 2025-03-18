@@ -104,8 +104,10 @@ Route::middleware('auth')->group(function () {
         Route::put('recipe/{id}', 'update')->name('recipe.update');
         Route::delete('recipe/{id}', 'destroy')->name('recipe.destroy');
         //Details
-        Route::get('recipes/detail/{id}/{updated?}', 'details_index')->name('detail.index');
-        
+        Route::get('recipes/detail/{id}/{updated?}', 'details_index')->name('details.index');
+        Route::delete('recipes/detail/{id}', 'details_destroy')->name('details.destroy');
+        Route::get('detail/{id}', 'details_form')->name('details.edit');
+        Route::put('detail/{id}', 'details_update')->name('details.update');
     });
     
 
