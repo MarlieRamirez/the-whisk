@@ -43,13 +43,13 @@ const item = {
     unit_price: 0,
     batch_cost: 0,
     unit_cost: 0,
-    details: [{}]
+    details: props.recipe ? props.recipe.details : [{}]
 }
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
         title: 'Recetas',
-        href: '/recipe'
+        href: '/recipes'
     },
     {
         title: props.recipe ? 'Actualizar' : 'Agregar',
@@ -83,7 +83,7 @@ const currentStep = ref(0);
 
 const submit = () => {
     if (props.recipe) {
-        form.put('/recipe/' + form.id, {});
+        form.put('/recipe/' + props.recipe.id, {});
     } else {
         form.post(route('recipe.store'), {});
     }

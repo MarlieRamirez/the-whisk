@@ -96,15 +96,16 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(RecipeController::class)->group(function () {
+        //General
         Route::get('recipes/{updated?}', 'index')->name('recipe.index');
-        //ADD
         Route::get('recipe/new', 'new')->name('recipe.form');
-        Route::get('recipe/new/{id}', 'new')->name('recipe.form.detail');
-
         Route::get('recipe/{id}', 'show')->name('recipe.edit');
         Route::post('recipe', 'store')->name('recipe.store');
         Route::put('recipe/{id}', 'update')->name('recipe.update');
         Route::delete('recipe/{id}', 'destroy')->name('recipe.destroy');
+        //Details
+        Route::get('recipes/detail/{id}/{updated?}', 'details_index')->name('detail.index');
+        
     });
     
 

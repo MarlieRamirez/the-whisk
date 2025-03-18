@@ -78,15 +78,51 @@ class RecipeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $recipe = Recipe::find($id);
+        $section = Sector::all();
+        $ingredients = Ingredients::all();
+        $recipe->load('details');
+        return Inertia::render('form/Recipe', ["sections"=>$section, "ingredients"=>$ingredients, "recipe"=>$recipe]);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the general and add other details
      */
     public function update(Request $request, string $id)
     {
-        //
+        
+        //MAIN
+        $recipe = Recipe::find($id);
+        $recipe->update($request->get('step1'));
+        
+        $batch = 0;
+        $unit = 0;
+        
+        //DETAILS
+        //delete existings
+        RecipeDetails::where('recipe_id', '=', $recipe->id)->delete();
+
+        foreach ($request->get('step1')['details'] as $value){
+            if($value != []){
+                
+                $value['recipe_id'] = $recipe->id;
+                $detail = RecipeDetails::create($value);    
+                $batch += $detail->cost;
+            }
+            
+        }
+        $unit = $batch/$recipe->quantity;
+
+        $batch = floatval(number_format($batch, 2));
+        $unit = floatval(number_format($unit, 2));
+
+        //UPDATE MAIN WITH CALCULATIONS
+        $recipe->batch_cost = $batch;
+        $recipe->unit_cost = $unit;
+
+        $recipe->save();
+        
+        return redirect()->route('recipe.index', true);
     }
 
     /**
@@ -94,6 +130,12 @@ class RecipeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        RecipeDetails::where('recipe_id', '=', $id)->delete();
+        Recipe::find($id)->delete();
+        return redirect()->route('recipe.index', true);
+    }
+
+    public function details_index(string $id, $updated=false){
+
     }
 }

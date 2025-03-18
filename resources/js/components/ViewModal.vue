@@ -68,7 +68,7 @@ defineProps<{
             </DialogDescription>
 
             <DialogFooter class="gap-2">
-                <Link  :href="route('ingredient.edit', item.id)" title="Editar ingrediente">
+                <Link  :href="route('recipe.edit', item.id)" title="Editar ingrediente">
                 <div
                     class="bg-blue-300 hover:bg-blue-400 dark:bg-blue-100 dark:hover:bg-blue-300 rounded-full p-2 my-2 flex">
                     <Pencil :size="25" class="stroke-gray-600 dark:stroke-gray-600" />
