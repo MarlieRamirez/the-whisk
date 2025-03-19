@@ -37,11 +37,11 @@ const breadcrumbItems: BreadcrumbItem[] = [
     },
     {
         title: 'Detalles',
-        href: '/recipes/details/' + props.recipe.id
+        href: '/recipes/detail/' + props.recipe.id
     },
     {
         title: 'Editar',
-        href: '/recipes/details/' + props.recipe.id
+        href: '/recipes/detail/' + props.recipe.id
     },
 ];
 

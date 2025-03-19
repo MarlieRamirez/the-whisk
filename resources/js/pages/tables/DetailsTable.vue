@@ -25,7 +25,7 @@ const breadcrumbItems: BreadcrumbItem[] = [
     },
     {
         title: props.title,
-        href: '/' + props.href
+        href: '/recipes/' + props.href
     }
 ];
 
@@ -78,7 +78,14 @@ const list: any = computed(() => {
                 </template>
 
                 <template v-slot:foot>
-                    footer
+                    <tr class="bg-gray-300 dark:bg-gray-700 font-semibold text-gray-900 dark:text-white">
+                        <th scope="row" class="px-6 py-3 text-base">Total</th>
+                        <td class="px-6 py-3"></td>
+                        
+                        <td class="px-6 py-3"></td>
+                        <td class="px-4 py-3">C${{ Object.values(recipe)[0]!!.batch_cost }}</td>
+                        <td class="px-6 py-3"></td>
+                    </tr>
                 </template>
             </TableLayout>
 

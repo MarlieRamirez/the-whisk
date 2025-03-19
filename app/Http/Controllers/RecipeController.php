@@ -168,25 +168,10 @@ class RecipeController extends Controller
     public function details_update(Request $request,string $id){
 
         $detail = RecipeDetails::find($id);
-        $recipe = Recipe::find($detail->recipe_id);
-
-        $array = RecipeDetails::all()->where('recipe_id', '=', $detail->recipe_id);
-        
-        $batch = 0;
-
-        foreach ($array as $value){
-            $batch += $value->cost;
-        }
-
         $detail->update($request->all());
+        $this->recount($detail->recipe_id);
+
         
-        $unit = $batch/$recipe->quantity;
-
-        $batch = floatval(number_format($batch, 2));
-        $unit = floatval(number_format($unit, 2));
-
-        $recipe->save();
-
         return redirect()->route('details.index', [$detail->recipe_id,true]);
     }
 
@@ -194,6 +179,30 @@ class RecipeController extends Controller
         $recipe = RecipeDetails::find($id);
         $recipe_id = $recipe->recipe_id;
         $recipe->delete();
+        
+        $this->recount($recipe_id);
         return redirect()->route('details.index', [$recipe_id,true]);
+    }
+
+    public function recount($recipe_id){
+
+        $recipe = Recipe::find($recipe_id);
+        $array = RecipeDetails::all()->where('recipe_id', '=', $recipe_id);
+        
+        $batch = 0;
+
+        foreach ($array as $value){
+            $batch += $value->cost;
+        }
+
+        $unit = $batch/$recipe->quantity;
+
+        $batch = floatval(number_format($batch, 2));
+        $unit = floatval(number_format($unit, 2));
+        
+        $recipe->batch_cost = $batch;
+        $recipe->unit_cost = $unit;
+
+        $recipe->save();
     }
 }

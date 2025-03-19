@@ -72,13 +72,13 @@ const list = computed(() => {
                             <ViewModal :sector="sector" link="recipe" :item="item" :ingredient="ingredients">
                                 <div
                                     class="lg:mx-0 mx-2 cursor-pointer bg-blue-300 hover:bg-blue-400 dark:bg-blue-100 dark:hover:bg-blue-300 rounded-full p-2 my-2">
-                                    <Edit :size="25" class="stroke-gray-600 dark:stroke-gray-600" />
+                                    <Edit class="stroke-gray-600 dark:stroke-gray-600" />
                                 </div>
                             </ViewModal>
                             <Link :href="route('details.index', item.id)" title="Editar ingrediente">
                             <div
-                                class="cursor-pointer bg-green-300 hover:bg-green-400 dark:bg-green-100 dark:hover:bg-green-300 rounded-full p-2 my-2">
-                                <ChevronRight :size="25" class="stroke-gray-600 dark:stroke-gray-600" />
+                                class="cursor-pointer bg-emerald-300 hover:bg-emerald-400 dark:bg-green-100 dark:hover:bg-green-300 rounded-full p-2 my-2">
+                                <ChevronRight class="stroke-gray-600 dark:stroke-gray-600" />
                             </div>
                             </Link>
                         </td>
