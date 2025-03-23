@@ -13,6 +13,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SectorController;
+use App\Http\Controllers\StorageController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -109,6 +110,11 @@ Route::middleware('auth')->group(function () {
         Route::get('detail/{id}', 'details_form')->name('details.edit');
         Route::put('detail/{id}', 'details_update')->name('details.update');
     });
-    
 
+    Route::controller(StorageController::class)->group(function(){
+        Route::get('storages/{updated?}', 'index')->name('storage.index');
+        Route::get('storage/add', 'new')->name('storage.add');
+        Route::get('storage/minus', 'minus')->name('storage.minus');
+        Route::post('storage', 'store')->name('storage.store');
+    });
 });
