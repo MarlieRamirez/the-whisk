@@ -20,7 +20,7 @@ const props = defineProps<{
 const breadcrumbItems: BreadcrumbItem[] = [
     {
         title: 'Inventario',
-        href: '/storage',
+        href: '/storages',
 
     }
 ];
@@ -50,8 +50,8 @@ const list: any = computed(() => {
         <Head :title="title" />
         <Toaster richColors position="bottom-right" />
 
-        <div class="flex ">
-            <Link :href="route('storage.add')" title="Editar ingrediente" class="ml-8">
+        <div class="flex mt-4">
+            <Link :href="route('storage.minus')" title="Editar ingrediente" class="ml-8">
             <div
                 class="cursor-pointer bg-red-300 hover:bg-red-400 dark:bg-red-100 dark:hover:bg-red-300 rounded-full p-2">
                 <Minus class="stroke-gray-600 dark:stroke-gray-600" />
@@ -75,7 +75,7 @@ const list: any = computed(() => {
                     <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-100 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
                         v-for="item in list" v-bind:key="item.id">
 
-                        <td class="pl-4 "> </td>
+                        <td class="pl-4 ">a</td>
                         <td class="pl-4 "></td>
                         <td class="pl-4"> </td>
                         <td class="pl-4 "></td>
