@@ -17,8 +17,16 @@ class StorageController extends Controller
      */
     public function index($updated = false)
     {
-        $storage = Storage::all();
-        $props = ["list_of" => $storage, "title" => "Inventario", "href" => "storage"];
+        $ingredients = Ingredients::all();
+        
+        $total_count = [];
+
+        foreach($ingredients as $x){
+            $temp = Storage::where('ingredient_id', '=',$x->id)->sum('quantity');
+            $total_count[] = $temp;
+        }
+
+        $props = ["list_of" => $ingredients,"list_totals"=>$total_count, "title" => "Inventario", "href" => "storage"];
 
         if ($updated) {
             $props['updated'] = $updated;
@@ -26,6 +34,10 @@ class StorageController extends Controller
         }
 
         return Inertia::render('tables/StorageTable', $props);
+    }
+
+    public function movements() {
+        
     }
 
     /**
@@ -45,6 +57,10 @@ class StorageController extends Controller
             ->groupBy('ingredient_id')
             ->get(['ingredient_id']);
         
+        config()->set('database.connections.mysql.strict', true);
+        DB::reconnect();
+        
+
         $valid = [];
         $totals = [];
         //FILTER IF TOTAL STORAGE
@@ -58,7 +74,6 @@ class StorageController extends Controller
             }
         }
         
-        
         $all = Ingredients::whereIn('id', $valid)->get();
         return Inertia::render('form/Storage', ["ingredients" => $all, "totals"=>$totals]);
     }
@@ -68,6 +83,8 @@ class StorageController extends Controller
     {
         //Ingredient
         $ingredient = Ingredients::find($request['ingredient_id']);
+        $ingredient->price = $request['price'];
+        $ingredient->save();
 
         //Reocurring variables
         $date = date_create();
@@ -77,7 +94,6 @@ class StorageController extends Controller
         $quantity = $request->get('quantity') * $ingredient->quantity;
 
         //Setup
-
         $request['session'] = $session;
 
         //Balance - Spent ... in ....
@@ -97,13 +113,13 @@ class StorageController extends Controller
             $balance['ingrediente_id'] = $request['ingredient_id'];
 
             // price * quantity
-            $balance['balance'] = -($ingredient->price * $quantity);
+            $balance['balance'] = -($ingredient->price * $quantity_request);
             $balance['current_balance'] = Balance::sum('balance') + $balance['balance'];
             $balance['session'] = $session;
             Balance::create($balance);
         } else {
             $request['total'] = Storage::where('ingredient_id', '=', $ingredient->id)->sum('quantity') - $quantity_request;
-            $request['quantity'] = $quantity_request;
+            $request['quantity'] = -$quantity_request;
             $request['description'] = 'Salida: ' . $request['description'];
         }
 
@@ -111,8 +127,7 @@ class StorageController extends Controller
         Storage::create($request->all());
 
         //Save in case of changing price
-        $ingredient->price = $request['price'];
-        $ingredient->save();
+        
         return redirect()->route('storage.index', true);
     }
 

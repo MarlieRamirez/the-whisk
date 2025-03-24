@@ -49,24 +49,15 @@ const form = useForm({
 
 const submit = () => {
     const index = props.ingredients.findIndex((x: any) => x.ingredient_id = form.ingredient_id);
+    form.description = description.value;
 
     if (props.totals) {
         //minus
         if (props.totals[index] < form.quantity) {
             return toast.error("Se esta intentando restar más de lo que se tiene en inventario");
-        }else{
-            form.post(route('storage.store'), {});
         }
     }
-    else {
-        //add
-        if (!props.in) {
-            form.description = description.value;
-            form.price = -form.price
-        }
-        form.post(route('storage.store'), {});
-    }
-
+    form.post(route('storage.store'), {});
 
 };
 
@@ -75,14 +66,12 @@ const current = computed(() => {
     return props.ingredients.filter((x) => x.id == form.ingredient_id)[0] || 0
 })
 
-
-function transform() {
-    form.description = form.quantity + ' ' + current.value.unit + ' de ' + props.ingredients.find((x: any) => x.id == form.ingredient_id).name
-}
+const index = computed(()=>{
+    return props.ingredients.findIndex((x) => x.id == form.ingredient_id);
+})
 
 const description = computed(() => {
     if (form.ingredient_id != 0) {
-        transform();
         return (form.quantity + ' ' + current.value.unit + ' de ' + props.ingredients.find((x: any) => x.id == form.ingredient_id).name);
     } else {
         return '';
@@ -98,7 +87,7 @@ const description = computed(() => {
         <Toaster rich-colors position="top-center" />
         <Head title="Manejar inventario" />
         <div class=" m-3 flex flex-row justify-center">
-
+            
             <form @submit.prevent="submit"
                 class="flex flex-col gap-6 md:w-1/2 border rounded-3xl border-neutral-400 m-3 p-6">
                 <p class="text-center text-2xl font-bold">{{ title }}</p>
@@ -108,7 +97,6 @@ const description = computed(() => {
                     <Input disabled id="movement" name="movement" autofocus v-model="form.movement" :tabindex="1"
                         placeholder="Harina de trigo para pastelería" />
                 </div>
-
                 <div>
                     <div class="grid grid-flow-col auto-cols-fr gap-2">
 
@@ -118,6 +106,7 @@ const description = computed(() => {
                                 v-model="form.quantity" placeholder="1250" />
                             <InputError :message="form.errors.quantity" />
                         </div>
+                        
 
                         <div class="" v-if="!props.in">
                             <Label for="presentation">Unidades*</Label>
@@ -139,6 +128,8 @@ const description = computed(() => {
                     </div>
                     <p class="mt-2" v-if="props.in"><b>Cantidad Total: </b>{{ current.quantity * form.quantity || 0 }}
                         {{ current.unit || '' }}</p>
+                    
+                    <p class="text-sm" v-else><b>Máximo en inventario: </b>{{ totals![index] || '' }}</p>
 
                 </div>
 
