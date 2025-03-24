@@ -46,20 +46,21 @@ class StorageController extends Controller
             ->get(['ingredient_id']);
         
         $valid = [];
-        
+        $totals = [];
         //FILTER IF TOTAL STORAGE
         foreach($ids as $x){
             $item = Storage::latest('created_at')->where('ingredient_id', '=',$x['ingredient_id'])->get();
             
             if($item[0]->total > 0){
                 // print($item);
-                $valid[] =$item[0]['ingredient_id'];
+                $valid[] = $item[0]['ingredient_id'];
+                $totals[] = $item[0]['total'];
             }
         }
         
         
         $all = Ingredients::whereIn('id', $valid)->get();
-        return Inertia::render('form/Storage', ["ingredients" => $all]);
+        return Inertia::render('form/Storage', ["ingredients" => $all, "totals"=>$totals]);
     }
 
 

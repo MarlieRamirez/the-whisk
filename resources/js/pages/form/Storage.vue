@@ -7,12 +7,14 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import InputError from '@/components/InputError.vue';
 import Select from 'primevue/select';
-import { computed, reactive } from 'vue';
+import { computed } from 'vue';
+import { toast, Toaster } from 'vue-sonner';
 
 
 const props = defineProps<{
     in: boolean;
     ingredients: [any],
+    totals?: [any]
 }>();
 
 const breadcrumbItems: BreadcrumbItem[] = [
@@ -46,11 +48,26 @@ const form = useForm({
 });
 
 const submit = () => {
-    if (!props.in) {
-        form.description = description.value;
-        form.price = -form.price
+    const index = props.ingredients.findIndex((x: any) => x.ingredient_id = form.ingredient_id);
+
+    if (props.totals) {
+        //minus
+        if (props.totals[index] < form.quantity) {
+            return toast.error("Se esta intentando restar más de lo que se tiene en inventario");
+        }else{
+            form.post(route('storage.store'), {});
+        }
     }
-    form.post(route('storage.store'), {});
+    else {
+        //add
+        if (!props.in) {
+            form.description = description.value;
+            form.price = -form.price
+        }
+        form.post(route('storage.store'), {});
+    }
+
+
 };
 
 
@@ -59,18 +76,18 @@ const current = computed(() => {
 })
 
 
-function transform(){
-    form.description  = form.quantity+ ' ' + current.value.unit + ' de '+ props.ingredients.find((x:any)=>x.id==form.ingredient_id).name
+function transform() {
+    form.description = form.quantity + ' ' + current.value.unit + ' de ' + props.ingredients.find((x: any) => x.id == form.ingredient_id).name
 }
 
-const description = computed(()=>{
-    if(form.ingredient_id!=0){
+const description = computed(() => {
+    if (form.ingredient_id != 0) {
         transform();
-        return (form.quantity+ ' ' + current.value.unit + ' de '+ props.ingredients.find((x:any)=>x.id==form.ingredient_id).name);
-    }else{
+        return (form.quantity + ' ' + current.value.unit + ' de ' + props.ingredients.find((x: any) => x.id == form.ingredient_id).name);
+    } else {
         return '';
     }
-    
+
 })
 
 
@@ -78,6 +95,7 @@ const description = computed(()=>{
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
 
+        <Toaster rich-colors position="top-center" />
         <Head title="Manejar inventario" />
         <div class=" m-3 flex flex-row justify-center">
 
@@ -93,40 +111,41 @@ const description = computed(()=>{
 
                 <div>
                     <div class="grid grid-flow-col auto-cols-fr gap-2">
-                        
+
                         <div class="">
                             <Label for="quantity">Cantidad*</Label>
                             <Input min="0" id="quantity" type="number" required autofocus :tabindex="2"
-                                v-model="form.quantity" placeholder="1250"  />
+                                v-model="form.quantity" placeholder="1250" />
                             <InputError :message="form.errors.quantity" />
                         </div>
 
                         <div class="" v-if="!props.in">
                             <Label for="presentation">Unidades*</Label>
-                            <Input id="presentation_2" type="text" required autofocus :tabindex="1"
-                                 placeholder="gr" :value="current.unit"/>
+                            <Input id="presentation_2" type="text" required autofocus :tabindex="1" placeholder="gr"
+                                :value="current.unit" />
                             <!-- <InputError :message="form.errors.step2?.presentation" /> -->
                         </div>
 
-                        <div >
+                        <div>
                             <Label for="ingredientes">De Ingrediente*</Label>
                             <div class="border-2 bg-[#ffffff] p-2 rounded-md dark:bg-[#000000] ">
                                 <Select name="ingredientes" v-model="form.ingredient_id" :options="ingredients"
                                     optionLabel="name" option-value="id" placeholder="Ingredientes" class="w-full"
-                                    @update:model-value="form.price = current.price; " />
+                                    @update:model-value="form.price = current.price;" />
 
                             </div>
                             <InputError :message="form.errors.ingredient_id" />
                         </div>
                     </div>
-                    <p class="mt-2" v-if="props.in"><b>Cantidad Total: </b>{{ current.quantity * form.quantity || 0 }} {{current.unit || '' }}</p>
-                    
+                    <p class="mt-2" v-if="props.in"><b>Cantidad Total: </b>{{ current.quantity * form.quantity || 0 }}
+                        {{ current.unit || '' }}</p>
+
                 </div>
 
-                <div class="grid gap-2 "  v-if="props.in">
+                <div class="grid gap-2 " v-if="props.in">
                     <Label for="price">Precio por paquete*</Label>
-                    <Input id="presentation_2" type="number" required autofocus :tabindex="1" v-model="form.price" step="0.01"
-                        placeholder="price" />
+                    <Input id="presentation_2" type="number" required autofocus :tabindex="1" v-model="form.price"
+                        step="0.01" placeholder="price" />
                     <!-- <CurrencyInput v-model="form.total" autofocus/> -->
                 </div>
                 <Button class="mt-4" :tabindex="4" :disabled="form.processing" v-on:click="submit()">
