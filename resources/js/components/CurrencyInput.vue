@@ -2,7 +2,7 @@
 import { useCurrencyInput } from "vue-currency-input";
 import { Input } from '@/components/ui/input';
 
-const props = defineProps({ modelValue: Number});
+defineProps({ modelValue: Number});
 
 const { inputRef, formattedValue } = useCurrencyInput(
     {

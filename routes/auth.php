@@ -113,9 +113,9 @@ Route::middleware('auth')->group(function () {
 
     Route::controller(StorageController::class)->group(function(){
         Route::get('storages/{updated?}', 'index')->name('storage.index');
-        Route::get('storage/add', 'new')->name('storage.add');
-        Route::get('storage/minus', 'minus')->name('storage.minus');
+        Route::get('storage/add/{ingredient?}', 'new')->name('storage.add');
+        Route::get('storage/minus/{ingredient?}', 'minus')->name('storage.minus');
         Route::post('storage', 'store')->name('storage.store');
-        Route::get('storage/product/{id}', 'movements')->name('storage.product.index');
+        Route::get('storage/product/{id}/{updated?}', 'movements')->name('storage.product.index');
     });
 });

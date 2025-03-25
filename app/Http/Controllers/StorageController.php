@@ -36,20 +36,34 @@ class StorageController extends Controller
         return Inertia::render('tables/StorageTable', $props);
     }
 
-    public function movements() {
+    public function movements(string $id, $updated=false) {
+        $storage = Storage::where('ingredient_id', '=', $id)->get();
+
+        $props = ["list_of" => $storage, "title" => "Inventario", "href" => "storage","id"=>$id];
         
+        if ($updated) {
+            $props['updated'] = $updated;
+        }
+        
+        return Inertia::render('tables/StorageIngredientsTable', $props);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function new()
+    public function new($id = 0)
     {
         $ingredients = Ingredients::all();
-        return Inertia::render('form/Storage', ["in" => true, "ingredients" => $ingredients]);
+        $props = ["in" => true, "ingredients" => $ingredients];
+
+        if($id!=0){
+            $props['id'] = $id;
+        }
+
+        return Inertia::render('form/Storage', $props);
     }
 
-    public function minus()
+    public function minus($id=0)
     {
         config()->set('database.connections.mysql.strict', false);
         DB::reconnect();
@@ -75,7 +89,14 @@ class StorageController extends Controller
         }
         
         $all = Ingredients::whereIn('id', $valid)->get();
-        return Inertia::render('form/Storage', ["ingredients" => $all, "totals"=>$totals]);
+
+        $props =["ingredients" => $all, "totals"=>$totals];
+
+        if($id!=0){
+            $props['id'] = $id;
+        }
+
+        return Inertia::render('form/Storage',$props );
     }
 
 
@@ -128,6 +149,10 @@ class StorageController extends Controller
 
         //Save in case of changing price
         
+        if($request['to_movement']){
+            return redirect()->route('storage.product.index', [$ingredient->id, true]);    
+        }
+
         return redirect()->route('storage.index', true);
     }
 
