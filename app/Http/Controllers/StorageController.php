@@ -105,6 +105,7 @@ class StorageController extends Controller
         //Ingredient
         $ingredient = Ingredients::find($request['ingredient_id']);
         $ingredient->price = $request['price'];
+        //Save in case of changing price
         $ingredient->save();
 
         //Reocurring variables
@@ -132,22 +133,26 @@ class StorageController extends Controller
             $balance['description'] = 'Compra de ' . $quantity . ' ' . $ingredient->name;
             $balance['quantity'] = $quantity_request;
             $balance['ingrediente_id'] = $request['ingredient_id'];
-
+            
             // price * quantity
             $balance['balance'] = -($ingredient->price * $quantity_request);
             $balance['current_balance'] = Balance::sum('balance') + $balance['balance'];
             $balance['session'] = $session;
+
+            $storage = Storage::create($request->all());
+            $balance['storage_id'] = $storage->id;
+            
             Balance::create($balance);
         } else {
             $request['total'] = Storage::where('ingredient_id', '=', $ingredient->id)->sum('quantity') - $quantity_request;
             $request['quantity'] = -$quantity_request;
             $request['description'] = 'Salida: ' . $request['description'];
+
+            //Storage
+            Storage::create($request->all());
         }
 
-        //Inventario
-        Storage::create($request->all());
-
-        //Save in case of changing price
+        
         
         if($request['to_movement']){
             return redirect()->route('storage.product.index', [$ingredient->id, true]);    
@@ -177,6 +182,33 @@ class StorageController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $storage = Storage::find($id);
+        $ingredient_id = $storage->ingredient_id;
+
+        $balance = Balance::where('storage_id','=', $id)->first();
+
+        //if removing 'Entrada' remove record in balance
+        if($storage->movement == 'entrada'){
+            //get rid of constraint
+            $balance->storage_id = null;
+            $balance->save();
+
+            //revert with new
+            $balance->id = null;
+
+            //set current
+            $balance->quantity = 0;
+            $balance->balance = -$balance->balance;
+            $balance->current_balance = Balance::sum('balance') + $balance->balance;
+
+            //save as new
+            $balance->movement = 'entrada';
+            $balance->description = 'Revertir: '.$balance->description;
+            
+            print($balance);
+            Balance::create($balance->toArray());
+        }
+        $storage->delete();
+        return redirect()->route('storage.product.index', [$ingredient_id, true]);    
     }
 }

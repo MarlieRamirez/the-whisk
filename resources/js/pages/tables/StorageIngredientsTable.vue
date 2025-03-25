@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import DeleteModal from '@/components/DeleteModal.vue';
 import Empty from '@/components/Empty.vue';
 import Heading from '@/components/Heading.vue';
 import TableLayout from '@/components/table/TableLayout.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
-import { Minus, Plus } from 'lucide-vue-next';
+import { Check,  Minus, Plus } from 'lucide-vue-next';
 
 import { computed, onMounted, onUpdated } from 'vue';
 import { toast, Toaster } from 'vue-sonner';
@@ -83,7 +84,7 @@ const list: any = computed(() => {
                 <template v-slot:body>
 
                     <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-100 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
-                        v-for="item in list_of" v-bind:key="item.id">
+                        v-for="item, i in list_of" v-bind:key="item.id">
 
                         <td class="pl-4 ">{{ item.description }}</td>
                         <td class="pl-4"> {{ item.movement.toUpperCase() }}</td>
@@ -91,14 +92,13 @@ const list: any = computed(() => {
                         <td class="pl-4"> {{ item.session }}</td>
 
                         <td class="flex justify-around">
-
-
-                            <!-- <Link :href="route('storage.product.index', item.id)" title="Editar ingrediente">
-                            <div
-                                class="cursor-pointer bg-emerald-300 hover:bg-emerald-400 dark:bg-green-100 dark:hover:bg-green-300 rounded-full p-2 my-2">
-                                <ChevronRight class="stroke-gray-600 dark:stroke-gray-600" />
+                            <DeleteModal v-if="i == list.length-1" :link="href" :id="item.id"/>
+                            
+                            <div v-else
+                                class="bg-emerald-300 dark:bg-green-100 rounded-full p-2 my-2">
+                                <Check  class="stroke-gray-600 dark:stroke-gray-600" />
                             </div>
-                            </Link> -->
+
                         </td>
                     </tr>
                 </template>

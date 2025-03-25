@@ -117,5 +117,6 @@ Route::middleware('auth')->group(function () {
         Route::get('storage/minus/{ingredient?}', 'minus')->name('storage.minus');
         Route::post('storage', 'store')->name('storage.store');
         Route::get('storage/product/{id}/{updated?}', 'movements')->name('storage.product.index');
+        Route::delete('storage/{id}', 'destroy')->name('storage.destroy');
     });
 });

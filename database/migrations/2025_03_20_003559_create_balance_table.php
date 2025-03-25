@@ -20,6 +20,8 @@ return new class extends Migration
             $table->integer('quantity');
             //se pago tanto de tal ingrediente
             $table->foreignId('ingrediente_id')->nullable()->constrained('recipe');
+            //se genero desde x registro
+            $table->foreignId('storage_id')->nullable()->constrained('storage');
             //AUTOMATICO
             $table->string('description');
             //Manejo del dinero

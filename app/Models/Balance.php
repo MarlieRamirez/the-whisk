@@ -7,5 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Balance extends Model
 {
     protected $table = 'balance';
-    protected $fillable = ['movement', 'recipe_id','quantity', 'ingrediente_id', 'description', 'balance', 'current_balance', 'session' ];
+    protected $fillable = ['movement', 'recipe_id','quantity', 'ingrediente_id','storage_id', 'description', 'balance', 'current_balance', 'session' ];
 }
