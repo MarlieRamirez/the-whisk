@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IngredientsController;
@@ -118,5 +119,14 @@ Route::middleware('auth')->group(function () {
         Route::post('storage', 'store')->name('storage.store');
         Route::get('storage/product/{id}/{updated?}', 'movements')->name('storage.product.index');
         Route::delete('storage/{id}', 'destroy')->name('storage.destroy');
+    });
+
+    Route::controller(BalanceController::class)->group(function(){
+        Route::get('balances/{updated?}', 'index')->name('balance.index');
+        Route::get('balance/add', 'add')->name('balance.add');
+        Route::get('balance/minus', 'minus')->name('balance.minus');
+        // Route::post('storage', 'store')->name('storage.store');
+        // Route::get('storage/product/{id}/{updated?}', 'movements')->name('storage.product.index');
+        // Route::delete('storage/{id}', 'destroy')->name('storage.destroy');
     });
 });
