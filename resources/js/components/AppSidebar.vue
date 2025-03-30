@@ -76,7 +76,7 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :items="$page.props.auth.user.role =='admin' ? mainNavItems: []" />
         </SidebarContent>
 
         <SidebarFooter>
