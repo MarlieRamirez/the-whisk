@@ -15,6 +15,7 @@ use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SectorController;
 use App\Http\Controllers\StorageController;
+use App\Http\Middleware\Admin;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -39,6 +40,8 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+
+
 });
 
 Route::middleware('auth')->group(function () {
@@ -57,9 +60,13 @@ Route::middleware('auth')->group(function () {
         ->name('password.confirm');
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
-
+    
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+});
+
+Route::middleware(Admin::class)->group(function () {
+
 
     Route::controller(CategoryController::class)->group(function () {
         Route::get('categories/{updated?}', 'index')->name('category.index');
@@ -67,7 +74,8 @@ Route::middleware('auth')->group(function () {
         Route::post('category', 'store')->name('category.store');
         Route::get('category/{id}', 'show')->name('category.edit');
         Route::put('category/{id}', 'update')->name('category.update');
-        Route::delete('category/{id}', 'destroy')->name('category.destroy');;
+        Route::delete('category/{id}', 'destroy')->name('category.destroy');
+        ;
     });
 
     Route::controller(SectorController::class)->group(function () {
@@ -76,7 +84,8 @@ Route::middleware('auth')->group(function () {
         Route::post('types', 'store')->name('types.store');
         Route::get('type/{id}', 'show')->name('type.edit');
         Route::put('types/{id}', 'update')->name('type.update');
-        Route::delete('type/{id}', 'destroy')->name('type.destroy');;
+        Route::delete('type/{id}', 'destroy')->name('type.destroy');
+        ;
     });
 
     Route::controller(BrandController::class)->group(function () {
@@ -85,7 +94,8 @@ Route::middleware('auth')->group(function () {
         Route::get('brand/{id}', 'show')->name('brand.edit');
         Route::post('brand', 'store')->name('brand.store');
         Route::put('brand/{id}', 'update')->name('brand.update');
-        Route::delete('brand/{id}', 'destroy')->name('brand.destroy');;
+        Route::delete('brand/{id}', 'destroy')->name('brand.destroy');
+        ;
     });
 
     Route::controller(IngredientsController::class)->group(function () {
@@ -94,7 +104,8 @@ Route::middleware('auth')->group(function () {
         Route::get('ingredient/{id}', 'show')->name('ingredient.edit');
         Route::post('ingredient', 'store')->name('ingredient.store');
         Route::put('ingredient/{id}', 'update')->name('ingredient.update');
-        Route::delete('ingredient/{id}', 'destroy')->name('ingredient.destroy');;
+        Route::delete('ingredient/{id}', 'destroy')->name('ingredient.destroy');
+        ;
     });
 
     Route::controller(RecipeController::class)->group(function () {
@@ -112,7 +123,7 @@ Route::middleware('auth')->group(function () {
         Route::put('detail/{id}', 'details_update')->name('details.update');
     });
 
-    Route::controller(StorageController::class)->group(function(){
+    Route::controller(StorageController::class)->group(function () {
         Route::get('storages/{updated?}', 'index')->name('storage.index');
         Route::get('storage/add/{ingredient?}', 'new')->name('storage.add');
         Route::get('storage/minus/{ingredient?}', 'minus')->name('storage.minus');
@@ -121,11 +132,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('storage/{id}', 'destroy')->name('storage.destroy');
     });
 
-    Route::controller(BalanceController::class)->group(function(){
+    Route::controller(BalanceController::class)->group(function () {
         Route::get('balances/{updated?}', 'index')->name('balance.index');
         Route::get('balance/add', 'add')->name('balance.add');
         Route::get('balance/minus', 'minus')->name('balance.minus');
-        // Route::post('storage', 'store')->name('storage.store');
+        Route::post('balance', 'store')->name('balance.store');
         // Route::get('storage/product/{id}/{updated?}', 'movements')->name('storage.product.index');
         // Route::delete('storage/{id}', 'destroy')->name('storage.destroy');
     });

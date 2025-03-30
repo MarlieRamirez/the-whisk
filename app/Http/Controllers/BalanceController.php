@@ -36,9 +36,7 @@ class BalanceController extends Controller
     }
     public function minus()
     {
-        $ingredients = Ingredients::all();
-        $props = ["recipe" => $ingredients];
-
+        $props = ["recipe" => []];
         return Inertia::render('form/Balance', $props);
     }
 
