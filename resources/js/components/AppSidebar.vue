@@ -5,14 +5,19 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, CircleDollarSign, FolderArchive, Github, LayoutGrid, Warehouse } from 'lucide-vue-next';
+import { BookOpen, CircleDollarSign, FolderArchive, Github, LayoutGrid, Lock, Warehouse } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
-const mainNavItems: NavItem[] = [
+const adminNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: '/dashboard',
         icon: LayoutGrid,
+    },
+    {
+        title: 'Administración',
+        href: '/admin',
+        icon: Lock,
     },
     {
         title: 'Categorias',
@@ -51,13 +56,21 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
+const guestNavItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: LayoutGrid,
+    },
+]
+
 const footerNavItems: NavItem[] = [
     {
         title: 'By Marlie',
         href: 'https://github.com/MarlieRamirez/the-whisk',
         icon: Github,
     },
-    
+
 ];
 </script>
 
@@ -68,7 +81,7 @@ const footerNavItems: NavItem[] = [
                 <SidebarMenuItem>
                     <SidebarMenuButton size="lg" as-child>
                         <Link :href="route('dashboard')">
-                            <AppLogo />
+                        <AppLogo />
                         </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -76,7 +89,7 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="$page.props.auth.user.role =='admin' ? mainNavItems: []" />
+            <NavMain :items="$page.props.auth.user.role == 'admin' ? adminNavItems : guestNavItems" />
         </SidebarContent>
 
         <SidebarFooter>
