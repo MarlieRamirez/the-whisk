@@ -137,7 +137,6 @@ Route::middleware(Admin::class)->group(function () {
         Route::get('balance/add', 'add')->name('balance.add');
         Route::get('balance/minus', 'minus')->name('balance.minus');
         Route::post('balance', 'store')->name('balance.store');
-        // Route::get('storage/product/{id}/{updated?}', 'movements')->name('storage.product.index');
-        // Route::delete('storage/{id}', 'destroy')->name('storage.destroy');
+        Route::delete('balance/{id}', 'destroy')->name('balance.destroy');
     });
 });

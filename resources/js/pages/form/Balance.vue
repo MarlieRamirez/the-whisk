@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import InputError from '@/components/InputError.vue';
 import Select from 'primevue/select';
 import { computed } from 'vue';
-import { toast, Toaster } from 'vue-sonner';
+import { Toaster } from 'vue-sonner';
 import CurrencyInput from '@/components/CurrencyInput.vue';
 
 
@@ -37,22 +37,27 @@ const form = useForm({
     movement: props.in ? 'Entrada' : 'Salida',
     description: '',
     balance: 0,
-
-    //only init
     quantity: 0,
-    pprice: 0,
+    
+    //only init
     unit: '',
     session: '',
-    recipe_id: 0,
-    current_balance: 0,
-    // to_movement: props.id ? true : false
+    recipe_id: props.in ? 0: null,
+    current_balance: 0
 });
 
 
 const submit = () => {
     // form.description = description.value;
-    return toast.error("Se esta intentando restar más de lo que se tiene en inventario");
-
+    
+    if(form.movement == 'Salida'){
+        form.balance = -form.balance 
+        form.current_balance = form.balance 
+        
+    }else{
+        form.current_balance = form.balance * form.quantity;
+    }
+    form.post(route('balance.store'), {});
 };
 
 
@@ -90,7 +95,7 @@ const current = computed(() => {
 
                         </div>
                     </div>
-
+                    
                     <div class="grid grid-flow-col auto-cols-fr gap-2">
 
                         <div class="">
@@ -122,13 +127,13 @@ const current = computed(() => {
                     <div class="grid gap-6">
                         <div class="grid gap-2 ">
                             <Label for="movement">Descripción*</Label>
-                            <Input id="movement" name="movement" autofocus v-model="form.description" :tabindex="1"
+                            <Input id="movement" name="movement" autofocus v-model="form.description" :tabindex="1" 
                                 placeholder="Mensualidad junio 2025" />
                         </div>
 
                         <div class="grid gap-2 ">
                             <Label for="movement">Saldo a restar*</Label>
-                            <CurrencyInput :model-value="form.balance" />
+                            <CurrencyInput v-model="form.balance"/>
                         </div>
                     </div>
                 </div>

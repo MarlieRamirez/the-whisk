@@ -45,20 +45,24 @@ class BalanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $date = date_create();
+        $request['session'] = 'W' . date_format($date, 'W') . '-' . date_format($date, 'Y');
+        
+        if($request['movement'] == 'Entrada'){
+            $recipe = Recipe::find($request['recipe_id']);
+            $request['description'] = 'Venta: '. $request['quantity']. ' '. $recipe->presentation. ' de '.$recipe->name;
+        }else{
+            $request['description'] = 'Pago: '. $request['description'];
+        }
 
-    /**
-     * Display the specified resource.
-     */
-    
+        
+        $request['balance'] = $request['current_balance'];
+        $latest = Balance::latest('created_at')->first();
+        $request['current_balance'] = $latest['current_balance'] + $request['current_balance'];
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+
+        Balance::create($request->all());
+        return redirect()->route('balance.index', true);
     }
 
     /**
