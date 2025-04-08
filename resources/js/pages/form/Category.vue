@@ -5,6 +5,7 @@ import { Head,useForm } from '@inertiajs/vue3';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { LoaderCircle } from 'lucide-vue-next';
 
 const props= defineProps<{
     model?:{ id:string,name:string, description?:string };

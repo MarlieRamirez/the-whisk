@@ -18,7 +18,9 @@ Route::get('dashboard', function () {
 //     return Inertia::render('DashboardAdmin', ["lowStock"=>Ingredients::all()]);
 // })->middleware(Admin::class)->name('dashboard');
 
-Route::get('admin', [DashboardController::class, 'widget']);
+
+
+// Route::get('admin', [DashboardController::class, 'widget']);
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

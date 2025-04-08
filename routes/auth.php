@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\SectorController;
@@ -66,7 +67,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(Admin::class)->group(function () {
-
+    Route::controller(DashboardController::class)->group(function (){
+      Route::get('admin', 'widget');
+      Route::post('register/recipe', 'use_in_storage')->name('register.recipe');
+      Route::post('register/sale', 'save_sale')->name('register.sale');
+    });
 
     Route::controller(CategoryController::class)->group(function () {
         Route::get('categories/{updated?}', 'index')->name('category.index');
