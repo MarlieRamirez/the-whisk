@@ -5,6 +5,7 @@ import { Head } from '@inertiajs/vue3';
 import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 import LowStock from '@/components/small_model/LowStock.vue';
 import RecipeWidget from '@/components/small_model/RecipeWidget.vue';
+import Predict from '@/components/small_model/Predict.vue';
 
 defineProps<{
   lowStock: [{ id: string, name: string, unit: string }],
@@ -44,10 +45,13 @@ const breadcrumbs: BreadcrumbItem[] = [
           <RecipeWidget title="Ventas de unidades" subtitle="Ventas de la semana" :recipes="recipes" :state="true" />
         </div>
       </div>
+      
       <div class="grid auto-rows-min gap-4 md:grid-cols-2">
-        <div class="relative aspect-[17/9] rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-          <PlaceholderPattern />
+
+        <div class="bg-[#ffffff33] p-5 relative aspect-[17/9] overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
+          <Predict :recipes="recipes"/>
         </div>
+
         <div
           class="relative aspect-[17/9] aspect-auto rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
           <PlaceholderPattern />
